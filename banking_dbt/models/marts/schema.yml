@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: mart_credit_risk
+    description: "Aggregated credit risk KPIs for analysis"
+    columns:
+      - name: customer_id
+        description: "Customer ID"
+        tests:
+          - not_null
+      # weitere Spalten hier ergänzen, wenn bekannt
+
+  - name: mart_compliance
+    description: "Compliance checks and alerts"
+    columns:
+      - name: compliance_check_id
+        description: "Primary key for compliance checks"
+        tests:
+          - not_null
+          - unique
+      # weitere Spalten hier ergänzen

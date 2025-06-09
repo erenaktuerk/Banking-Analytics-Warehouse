@@ -1,0 +1,65 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: RAW  # schema in Snowflake (klein geschrieben, falls case sensitive)
+    tables:
+      - name: customers
+      - name: loans
+      - name: payments
+
+models:
+  - name: stg_customers
+    description: "Staging layer for customer data"
+    columns:
+      - name: customer_id
+        description: "Primary key for customers"
+        tests:
+          - not_null
+          - unique
+      - name: first_name
+        description: "First name of customer"
+      - name: last_name
+        description: "Last name of customer"
+      - name: birth_date
+        description: "Birth date"
+      - name: gender
+        description: "Gender (M/F)"
+      - name: country
+        description: "Country code"
+
+  - name: stg_loans
+    description: "Staging layer for loans"
+    columns:
+      - name: id
+        description: "Primary key for loans"
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Foreign key to customers"
+        tests:
+          - not_null
+      - name: loan_amount
+        description: "Amount of loan"
+      - name: start_date
+        description: "Loan start date"
+      - name: end_date
+        description: "Loan end date"
+
+  - name: stg_payments
+    description: "Staging layer for payments"
+    columns:
+      - name: payment_id
+        description: "Primary key for payments"
+        tests:
+          - not_null
+          - unique
+      - name: loan_id
+        description: "Foreign key to loans"
+        tests:
+          - not_null
+      - name: payment_date
+        description: "Date of payment"
+      - name: amount
+        description: "Payment amount"

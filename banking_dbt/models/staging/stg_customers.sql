@@ -1,6 +1,15 @@
-payment_id,loan_id,payment_date,amount
-1001,101,2021-02-01,500
-1002,101,2021-03-01,500
-1003,102,2022-07-01,600
-1004,103,2020-06-01,400
-1005,103,2021-01-01,400
+{{ config(materialized='view') }}
+
+-- Staging customers from raw layer
+SELECT
+    customer_id::INT            AS customer_id,
+    first_name::STRING          AS first_name,
+    last_name::STRING           AS last_name,
+    birth_date::DATE            AS birth_date,
+    gender::STRING              AS gender,
+    country::STRING             AS country,
+
+    -- Simulierter Risk Score (zwischen 500 und 800)
+    UNIFORM(500, 800, RANDOM())::INT AS risk_score
+
+FROM {{ source('raw', 'customers') }}

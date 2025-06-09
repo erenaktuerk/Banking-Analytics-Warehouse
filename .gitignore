@@ -1,6 +1,7 @@
-__pycache__/
+_pycache_/
 *.pyc
 venv/
 .env
 *.csv
 profiles.yml
+target/

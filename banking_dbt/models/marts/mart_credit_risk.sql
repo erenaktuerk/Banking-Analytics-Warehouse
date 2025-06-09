@@ -1,10 +1,10 @@
--- banking_dbt/models/marts/mart_credit_risk.sql
+{{ config(materialized='view') }}
 
 WITH payments_agg AS (
     SELECT
         loan_id,
-        SUM(amount) AS total_paid
-    FROM {{ ref('stg_payments') }}
+        SUM(payment_amount) AS total_paid
+    FROM {{ ref('stg_payments') }} AS p
     GROUP BY loan_id
 ),
 loan_info AS (
@@ -19,7 +19,8 @@ loan_info AS (
 )
 SELECT
     c.customer_id,
-    c.name,
+    c.first_name,
+    c.last_name,
     c.risk_score,
     l.loan_id,
     l.loan_amount,
@@ -31,4 +32,4 @@ SELECT
         ELSE 'Low Risk'
     END AS risk_category
 FROM loan_info l
-JOIN {{ ref('stg_customers') }} c ON l.customer_id = c.customer_id;
+JOIN {{ ref('stg_customers') }} c ON l.customer_id = c.customer_id
