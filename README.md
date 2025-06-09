@@ -2,37 +2,44 @@
 
 ## Overview
 
-This repository contains a robust, scalable data warehouse solution for banking analytics, leveraging *Snowflake* as the cloud data platform and *dbt (data build tool)* for modular, maintainable, and version-controlled data transformations.
+This repository contains a production-ready, scalable data warehouse solution tailored for banking analytics, built on Snowflake as the cloud data platform and dbt (data build tool) for robust, modular, and version-controlled data transformations.
 
-The project architecture follows best practices in modern data engineering and analytics, providing a clean, extensible foundation for credit risk analysis, compliance monitoring, and other critical banking use cases.
+The project follows industry best practices in modern data engineering, focusing on maintainability, testability, and automation to support critical banking use cases such as credit risk analysis, compliance monitoring, and customer analytics.
+
+By leveraging dbt’s model dependency graph and automated documentation, this solution ensures transparent data lineage, easy collaboration, and fast onboarding for analytics and data engineering teams.
 
 ---
 
 ## Key Features
 
-- **Cloud-native architecture:** Fully designed to run on Snowflake, enabling high performance, elasticity, and secure data storage.
-- **Modular transformation pipelines:** dbt models structured to enforce data quality, reusability, and easy collaboration.
-- **Configurable environment:** Profiles and project configurations tailored for seamless development and deployment workflows.
-- **Automated testing & validation:** Schema and data tests embedded within dbt models to ensure accuracy and reliability.
-- **Version control:** Git-based code management with clean commit history for auditability and team coordination.
-- **Documentation:** Auto-generated, up-to-date data lineage and model documentation via dbt docs.
+- *Cloud-native & scalable:* Designed for Snowflake to deliver high performance, elastic compute, and secure, governed data storage.
+- *Modular transformation pipelines:* Well-structured dbt models with clear staging and marts layers, enabling reuse, flexibility, and maintainability.
+- *Comprehensive testing & validation:* Embedded schema and data quality tests guarantee reliability and data accuracy before downstream consumption.
+- *Auto-generated documentation & lineage:* Up-to-date data lineage and detailed model documentation generated automatically with dbt docs.
+- *Version-controlled development:* Git-based workflows with clean commit history and CI/CD readiness.
+- *Real-world banking focus:* Implements concrete use cases around credit risk scoring, regulatory compliance checks, and customer transaction analytics.
+- *Configurable environment:* Profiles and project configurations adapted for local development, testing, and production deployments.
+- *Clear project structure:* Logical separation of raw, staging, and marts layers aligned with best practices in data warehouse design.
 
 ---
 
 ## Repository Structure
 
 .
-├── banking_dbt/                 # dbt project folder
-│   ├── models/                  # dbt transformation models (SQL)
-│   ├── macros/                  # reusable SQL macros
-│   ├── tests/                   # custom data tests
-│   ├── dbt_project.yml          # dbt project configuration
-├── data/                       # raw and processed data (excluded from repo)
-├── docs/                       # project documentation and diagrams
-├── requirements.txt            # Python dependencies
+├── banking_dbt/                 # dbt project folder containing transformations and tests
+│   ├── analyses/                # Analytical queries for ad-hoc exploration
+│   ├── macros/                  # Reusable SQL macros to simplify transformations
+│   ├── models/                  # SQL models (staging, marts, snapshots)
+│   ├── seeds/                   # Static seed data for reference tables
+│   ├── snapshots/               # Snapshots to capture slowly changing dimensions
+│   ├── tests/                   # Custom tests and assertions
+│   ├── dbt_project.yml          # dbt project configuration file
+├── data/                       # Raw and processed data (excluded from repo)
+├── docs/                       # Project documentation, diagrams, and architecture
+├── requirements.txt            # Python dependencies for dbt and utilities
 ├── README.md                   # Project overview and instructions
-├── .gitignore                  # Ignored files for Git
-└── profiles.yml (excluded)     # dbt connection profiles (local only)
+├── .gitignore                  # Files and folders ignored by Git
+└── profiles.yml (excluded)     # Local dbt connection profiles (not committed)
 
 ---
 
@@ -40,10 +47,10 @@ The project architecture follows best practices in modern data engineering and a
 
 ### Prerequisites
 
-- Snowflake account with appropriate permissions
-- Python 3.10+
-- dbt version 1.9.x installed in a virtual environment
-- Git for version control
+- Snowflake account with proper roles and permissions for data warehouse access
+- Python 3.10+ installed locally
+- dbt version 1.9.x installed within a Python virtual environment
+- Git for version control and collaboration
 
 ### Installation
 
@@ -53,19 +60,21 @@ The project architecture follows best practices in modern data engineering and a
    git clone <repo-url>
    cd Banking-Analytics-Warehouse
 
-	2.	Create and activate your Python virtual environment:
+	2.	Create and activate a Python virtual environment:
 
 python -m venv venv
-.\venv\Scripts\activate  # Windows
-source venv/bin/activate # macOS/Linux
+# Windows
+.\venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
 
 
-	3.	Install dependencies:
+	3.	Install project dependencies:
 
 pip install -r requirements.txt
 
 
-	4.	Configure your Snowflake connection in ~/.dbt/profiles.yml (excluded from repo):
+	4.	Configure your Snowflake connection profile locally in ~/.dbt/profiles.yml (excluded from repo):
 
 banking_analytics_profile:
   target: dev
@@ -83,33 +92,34 @@ banking_analytics_profile:
 
 
 
-Running dbt
+Running the Project
 
-Run the following commands inside the banking_dbt directory:
+All dbt commands should be run inside the banking_dbt directory:
 
-dbt debug               # Validate connection and config
-dbt run                 # Execute data transformations
-dbt test                # Run data quality tests
-dbt docs generate       # Generate documentation site
-dbt docs serve          # Serve documentation locally
+dbt debug               # Validate Snowflake connection and dbt config
+dbt run                 # Execute data transformation models
+dbt test                # Run automated data quality tests
+dbt docs generate       # Generate documentation site including data lineage graph
+dbt docs serve          # Serve the documentation locally at http://localhost:8080
 
 
 ⸻
 
-Contribution Guidelines
+Development & Contribution Guidelines
 
-Contributions are welcome! Please adhere to the following:
-	•	Use descriptive commit messages following conventional commits.
-	•	Write modular and well-documented dbt models.
-	•	Add tests for any new transformations or schema changes.
-	•	Keep sensitive information (e.g., credentials) out of the repository.
-	•	Follow PEP8 for any Python code and maintain consistent formatting.
+Contributions and improvements are welcome! Please follow these guidelines:
+	•	Use clear, descriptive commit messages following conventional commit standards.
+	•	Write modular, maintainable, and well-documented dbt models.
+	•	Add appropriate schema and data tests for any new transformations or model changes.
+	•	Exclude any sensitive information such as passwords or personal data from commits.
+	•	Follow consistent code formatting and PEP8 standards for any Python scripts or macros.
+	•	Document architectural decisions and rationale to support team knowledge sharing.
 
 ⸻
 
 Contact & Support
 
-For questions or support, please open an issue or contact:
+For questions, feature requests, or support, please open an issue or contact:
 
 Eren Aktürk
 Email: eren.ak@example.com
@@ -119,8 +129,10 @@ GitHub: erenaktuerk
 
 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ⸻
 
-Empowering banking analytics through modern, scalable, and maintainable data engineering
+Empowering banking analytics through pragmatic, scalable, and maintainable data engineering solutions.
+
+---
