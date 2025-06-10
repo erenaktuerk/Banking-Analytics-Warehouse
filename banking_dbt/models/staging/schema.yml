@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: raw
-    schema: RAW  # schema in Snowflake (klein geschrieben, falls case sensitive)
+    schema: RAW  # schema in Snowflake (case-sensitive!)
     tables:
       - name: customers
       - name: loans
@@ -27,11 +27,15 @@ models:
         description: "Gender (M/F)"
       - name: country
         description: "Country code"
+      - name: risk_score
+        description: "Simulated risk score between 500–800"
+        tests:
+          - not_null
 
   - name: stg_loans
     description: "Staging layer for loans"
     columns:
-      - name: id
+      - name: loan_id
         description: "Primary key for loans"
         tests:
           - not_null
@@ -61,5 +65,7 @@ models:
           - not_null
       - name: payment_date
         description: "Date of payment"
-      - name: amount
+      - name: payment_amount
         description: "Payment amount"
+        tests:
+          - not_null

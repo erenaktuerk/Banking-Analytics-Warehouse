@@ -1,6 +1,9 @@
 {{ config(materialized='view') }}
 
 SELECT
+    MD5(
+        CAST(c.customer_id AS STRING) || '_' || CAST(l.loan_id AS STRING)
+    ) AS compliance_check_id,
     c.customer_id,
     c.first_name,
     c.last_name,
@@ -15,4 +18,9 @@ SELECT
 FROM {{ ref('stg_customers') }} c
 JOIN {{ ref('stg_loans') }} l ON c.customer_id = l.customer_id
 LEFT JOIN {{ ref('stg_payments') }} p ON l.loan_id = p.loan_id
-GROUP BY c.customer_id, c.first_name, c.last_name, l.loan_id, l.loan_amount
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name,
+    l.loan_id,
+    l.loan_amount

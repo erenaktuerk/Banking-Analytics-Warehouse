@@ -8,14 +8,53 @@ models:
         description: "Customer ID"
         tests:
           - not_null
-      # weitere Spalten hier ergänzen, wenn bekannt
+          - unique
+      - name: loan_id
+        description: "Loan ID"
+        tests:
+          - not_null
+      - name: loan_amount
+        description: "Original loan amount"
+        tests:
+          - not_null
+      - name: total_paid
+        description: "Total payments received"
+        tests:
+          - not_null
+      - name: outstanding_amount
+        description: "Remaining unpaid balance"
+        tests:
+          - not_null
+      - name: risk_category
+        description: "Risk classification based on score"
+        tests:
+          - not_null
 
   - name: mart_compliance
     description: "Compliance checks and alerts"
     columns:
-      - name: compliance_check_id
-        description: "Primary key for compliance checks"
+      - name: customer_id
+        description: "Customer ID"
         tests:
           - not_null
           - unique
-      # weitere Spalten hier ergänzen
+      - name: loan_id
+        description: "Loan ID"
+        tests:
+          - not_null
+      - name: loan_amount
+        description: "Loan amount"
+        tests:
+          - not_null
+      - name: num_payments
+        description: "Number of recorded payments"
+        tests:
+          - not_null
+      - name: last_payment_date
+        description: "Date of most recent payment"
+        tests:
+          - not_null
+      - name: compliance_status
+        description: "Compliance status based on activity"
+        tests:
+          - not_null

@@ -14,8 +14,8 @@ loan_info AS (
         l.loan_amount,
         COALESCE(p.total_paid, 0) AS total_paid,
         (l.loan_amount - COALESCE(p.total_paid, 0)) AS outstanding_amount
-    FROM {{ ref('stg_loans') }} l
-    LEFT JOIN payments_agg p ON l.loan_id = p.loan_id
+    FROM {{ ref('stg_loans') }} AS l
+    LEFT JOIN payments_agg AS p ON l.loan_id = p.loan_id
 )
 SELECT
     c.customer_id,
@@ -31,5 +31,5 @@ SELECT
         WHEN c.risk_score BETWEEN 600 AND 699 THEN 'Medium Risk'
         ELSE 'Low Risk'
     END AS risk_category
-FROM loan_info l
-JOIN {{ ref('stg_customers') }} c ON l.customer_id = c.customer_id
+FROM loan_info AS l
+JOIN {{ ref('stg_customers') }} AS c ON l.customer_id = c.customer_id
